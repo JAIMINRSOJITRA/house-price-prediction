@@ -16,6 +16,30 @@ It is useful as a quick price estimator and as a worked example of an end-to-end
 * Training avoids target leakage — `price_per_sqft`, which is derived from the price, is excluded
 * Streamlit app for instant predictions
 
+## 🔄 Workflow
+
+Training (in the notebook):
+
+```mermaid
+flowchart TD
+    D[("Housing.csv")] --> C["Clean the data and encode yes/no columns"]
+    C --> F["Feature engineering<br/>18 features, no price_per_sqft leakage"]
+    F --> S["Train / test split"]
+    S --> M["Train and compare<br/>Linear Regression, Random Forest, XGBoost"]
+    M --> P["Build the pipeline<br/>StandardScaler + XGBRegressor"]
+    P --> PK[("xgboost_pipeline.pkl")]
+```
+
+Prediction (in the Streamlit app):
+
+```mermaid
+flowchart TD
+    U(["User enters property details"]) --> V["Build the same 18-feature vector"]
+    V --> L["Load xgboost_pipeline.pkl"]
+    L --> PR["Scale the features and predict"]
+    PR --> O(["Estimated price"])
+```
+
 ## 🛠️ Tech Stack
 
 * Language: Python
