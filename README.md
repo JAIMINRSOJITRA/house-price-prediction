@@ -1,37 +1,95 @@
-# House Price Prediction
+# 🚀 House Price Prediction
 
-Predicts house prices from listing features using an XGBoost regression model, served through a Streamlit app.
+Estimate a property's price from its features using an XGBoost model, served through a Streamlit app.
 
-## Features
+## 📌 Overview
 
-- Trained on the classic Housing dataset (area, bedrooms, bathrooms, amenities, furnishing status)
-- 18 engineered features: raw listing fields plus derived ones (total rooms, luxury flag, amenity score, area buckets, log-area, etc.)
-- Interactive Streamlit UI — enter listing details and get an instant price estimate
-- Model trained and compared across Linear Regression, Random Forest, and XGBoost (XGBoost pipeline is what's deployed)
+This project trains a regression model on a housing dataset (area, bedrooms, bathrooms, amenities, furnishing status) and exposes it through an interactive web app. Several models were compared in the notebook; the XGBoost pipeline is the one deployed.
 
-## Tech Stack
+It is useful as a quick price estimator and as a worked example of an end-to-end ML workflow.
 
-![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
-![XGBoost](https://img.shields.io/badge/-XGBoost-316192?style=flat)
-![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/-scikit--learn-F7931E?style=flat&logo=scikitlearn&logoColor=white)
+## ✨ Features
 
-## Project Structure
+* 18 features: raw listing fields plus engineered ones (total rooms, luxury flag, amenity score, area bucket, log-area, and more)
+* Single pipeline (StandardScaler + XGBRegressor) saved and loaded as one object
+* Compared Linear Regression, Random Forest, and XGBoost
+* Training avoids target leakage — `price_per_sqft`, which is derived from the price, is excluded
+* Streamlit app for instant predictions
+
+## 🛠️ Tech Stack
+
+* Language: Python
+* Libraries: Pandas, NumPy, Scikit-learn, XGBoost, Matplotlib, Plotly, Streamlit
+* Tools: Git, GitHub, Jupyter Notebook
+
+## 📂 Project Structure
 
 ```
-housepriceprediction.ipynb   # EDA, feature engineering, model training/comparison
-app.py                       # Streamlit app — loads xgboost_pipeline.pkl and serves predictions
-Housing.csv                  # Training dataset
-xgboost_pipeline.pkl         # Trained StandardScaler + XGBRegressor pipeline
+house-price-prediction/
+├── Housing.csv                  # dataset
+├── housepriceprediction.ipynb   # EDA, feature engineering, model comparison
+├── app.py                       # Streamlit app
+├── xgboost_pipeline.pkl         # trained scaler + XGBoost pipeline
+├── requirements.txt
+└── LICENSE
 ```
 
-## Getting Started
+## ⚙️ Installation
 
-```bash
+1. Clone the repository:
+
+```
+git clone https://github.com/JAIMINRSOJITRA/house-price-prediction.git
+```
+
+2. Navigate to the project:
+
+```
+cd house-price-prediction
+```
+
+3. Install dependencies:
+
+```
 pip install -r requirements.txt
+```
+
+## ▶️ Usage
+
+```
 streamlit run app.py
 ```
 
-## Notes
+Then open `http://localhost:8501`, enter the property details, and read the estimated price. To retrain, open `housepriceprediction.ipynb` in Jupyter and run all cells.
 
-The feature engineering in `app.py` is built to exactly match the training pipeline in the notebook (same 18 features, same order, same formulas) — verified by inspecting the trained pipeline's expected feature schema directly.
+## 📊 Results / Demo
+
+* The app's feature vector was checked against the trained pipeline: all 18 features match in name, order, and formula.
+* See the notebook for model-comparison metrics.
+
+## 🧠 What I Learned
+
+* Keeping the feature engineering used at prediction time identical to training
+* Spotting and removing target leakage (a feature derived from the answer)
+* Bundling preprocessing and model into one pipeline to avoid mismatches
+
+## 🔮 Future Improvements
+
+* Show a prediction range instead of a single number
+* Tune hyperparameters and report cross-validated metrics in the README
+* Deploy the app (for example on Streamlit Community Cloud)
+
+## 🤝 Contributing
+
+Contributions, issues, and suggestions are welcome.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 👨‍💻 Author
+
+Jaimin Sojitra
+
+* GitHub: https://github.com/JAIMINRSOJITRA
+* LinkedIn: https://www.linkedin.com/in/jaimin-sojitra-4683a1277/
